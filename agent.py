@@ -11,7 +11,7 @@ ACTIONS = [np.array([1,0,0,0]),
            np.array([0,0,1,0]),
            np.array([0,0,0,1])]
 
-TRAINING_EPOCH_NUM = 200
+TRAINING_EPOCH_NUM = 10000
 gamma         = 0.98
 batch_size    = 64
 
@@ -130,11 +130,6 @@ class AGENT:
                 else:
                     done_mask = torch.tensor([1.0], device = self.device)
 
-#                print("state : ", state)
-#                print("action : ", action)
-#                print("demage : ", reward)
-#                print("next_state : ", next_state)
-
                 self.memory.put((state[:8], action, reward, next_state[:8], done_mask))
                 state = next_state  # agent를 다음 state로 이동
                 cum_reward = cum_reward + reward
@@ -166,15 +161,6 @@ class AGENT:
                 total_time = 0
 
             if (episode % 100 == 0) and (episode > 0):
-                print("bennett_na : ", action_history.count(0))
-                print("bennett_ca : ", action_history.count(1))
-                print("bennett_e : ", action_history.count(2))
-                print("bennett_q : ", action_history.count(3))
-                print("xingqiu_na : ", action_history.count(4))
-                print("xingqiu_ca : ", action_history.count(5))
-                print("xingqiu_e : ", action_history.count(6))
-                print("xingqiu_q : ", action_history.count(7))
-                print("time history : ", time_history)
 
             if episode % decay_period == 0:
                 epsilon *= decay_rate
